@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grounded Creative - Learning Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #4a4a4a;
+            background: #f8f6f3;
+        }
+
+        .header {
+            background: #ffffff;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #6b5b73;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #6b5b73;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #7a7a7a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .month-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .month-nav button {
+            padding: 1rem 2rem;
+            border: 2px solid #e8e5e1;
+            background: white;
+            color: #6b5b73;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .month-nav button.active {
+            background: #6b5b73;
+            color: white;
+            border-color: #6b5b73;
+        }
+
+        .month-nav button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .month-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .month-section.active {
+            display: block;
+        }
+
+        .month-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f0ede8;
+        }
+
+        .month-title {
+            font-size: 2rem;
+            color: #6b5b73;
+            margin-bottom: 0.5rem;
+        }
+
+        .month-subtitle {
+            font-size: 1.1rem;
+            color: #8a8a8a;
+            font-style: italic;
+        }
+
+        .weeks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .week-card {
+            background: #fafaf9;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e8e5e1;
+            transition: transform 0.3s ease;
+        }
+
+        .week-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .week-number {
+            background: #6b5b73;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .week-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-current {
+            background: #ffe8d1;
+            color: #d2691e;
+        }
+
+        .status-upcoming {
+            background: #e8e5e1;
+            color: #8a8a8a;
+        }
+
+        .week-title {
+            font-size: 1.3rem;
+            color: #6b5b73;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .week-description {
+            color: #7a7a7a;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .worksheet {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #e8e5e1;
+            margin: 1rem 0;
+        }
+
+        .worksheet h4 {
+            color: #6b5b73;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #6b5b73;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d0d0d0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .save-btn {
+            background: #6b5b73;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .save-btn:hover {
+            background: #5a4a61;
+        }
+
+        .tip {
+            background: #e8f4f8;
+            border-left: 4px solid #6b5b73;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .tip-title {
+            font-weight: 600;
+            color: #6b5b73;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .month-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .weeks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">The Grounded Creative</div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Brand Visuals That Convert</h1>
+            <p>A 3-month journey for creatives wanting to establish a cohesive visual presence for their new creative business</p>
+        </div>
+
+        <div class="month-nav">
+            <button class="active" onclick="showMonth(1)">Month 1: Your Why</button>
+            <button onclick="showMonth(2)">Month 2: Your Client</button>
+            <button onclick="showMonth(3)">Month 3: Your Brand</button>
+        </div>
+
+        <!-- Month 1 -->
+        <div id="month1" class="month-section active">
+            <div class="month-header">
+                <h2 class="month-title">Month 1</h2>
+                <p class="month-subtitle">Understanding our personal why and our business why, in a visual way</p>
+            </div>
+
+            <div class="weeks-grid">
+                <!-- Week 1 -->
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 1</span>
+                        <span class="week-status status-current">Current</span>
+                    </div>
+                    <h3 class="week-title">Why You Are Here / Personal Vision Board</h3>
+                    <p class="week-description">
+                        Welcome to your brand clarity journey! This week we'll introduce the course, get to know each other, and create your personal vision board.
+                    </p>
+
+                    <div class="worksheet">
+                        <h4>Personal Vision Board Prep</h4>
+                        <div class="form-group">
+                            <label>What are your core personal values?</label>
+                            <textarea placeholder="List 5-7 values that drive you (creativity, freedom, authenticity, growth, etc.)"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>What does your ideal creative life look like in 3 years?</label>
+                            <textarea placeholder="Describe your vision in detail - where are you working, what projects are you creating, how do you feel?"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>What colors, textures, or visual elements inspire you?</label>
+                            <textarea placeholder="Think about environments, art, nature, or designs that energize you"></textarea>
+                        </div>
+                        <button class="save-btn">Save Progress</button>
+                    </div>
+
+                    <div class="tip">
+                        <div class="tip-title">💡 Pro Tip</div>
+                        Don't overthink your vision board - let your intuition guide you. Choose images that make you feel excited and energized.
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 2</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Your Business Why on Paper</h3>
+                    <p class="week-description">
+                        Learn to craft a compelling narrative using the 5 Whys technique and personal SWOT analysis.
+                    </p>
+
+                    <div class="worksheet">
+                        <h4>The 5 Whys Exercise</h4>
+                        <div class="form-group">
+                            <label>Why do you want to start this creative business?</label>
+                            <textarea placeholder="Your first answer..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Why is that important to you?</label>
+                            <textarea placeholder="Dig deeper..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Why does that matter?</label>
+                            <textarea placeholder="Keep going..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Why is that significant?</label>
+                            <textarea placeholder="Almost there..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Why is that your core driver?</label>
+                            <textarea placeholder="Your deepest why..."></textarea>
+                        </div>
+                        <button class="save-btn">Save 5 Whys</button>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 3</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Business Vision Board</h3>
+                    <p class="week-description">
+                        Create a visual representation of your ideal business, incorporating competitor research.
+                    </p>
+
+                    <div class="worksheet">
+                        <h4>Business Vision Elements</h4>
+                        <div class="form-group">
+                            <label>What words describe your ideal business atmosphere?</label>
+                            <input type="text" placeholder="e.g., warm, professional, creative, approachable">
+                        </div>
+                        <div class="form-group">
+                            <label>What emotions do you want clients to feel?</label>
+                            <input type="text" placeholder="e.g., confident, inspired, understood, excited">
+                        </div>
+                        <div class="form-group">
+                            <label>List 5 businesses you admire in your field</label>
+                            <textarea placeholder="Include business names and what you admire about each"></textarea>
+                        </div>
+                        <button class="save-btn">Save Vision</button>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 4</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Reflection Week</h3>
+                    <p class="week-description">
+                        No new material. Time to catch up, reflect, and integrate your discoveries. Optional 1:1 sessions available.
+                    </p>
+
+                    <div class="worksheet">
+                        <h4>Month 1 Integration</h4>
+                        <div class="form-group">
+                            <label>What surprised you most about your personal why?</label>
+                            <textarea placeholder="Reflect on your key insights"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>How has your business vision evolved this month?</label>
+                            <textarea placeholder="What's clearer now than when you started?"></textarea>
+                        </div>
+                        <button class="save-btn">Save Reflection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Month 2 -->
+        <div id="month2" class="month-section">
+            <div class="month-header">
+                <h2 class="month-title">Month 2</h2>
+                <p class="month-subtitle">Clarifying who our ideal client is and crafting our brand story</p>
+            </div>
+
+            <div class="weeks-grid">
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 5</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Ideal Client Deep Dive</h3>
+                    <p class="week-description">
+                        Define your ideal client's demographics, psychographics, challenges, and goals.
+                    </p>
+
+                    <div class="worksheet">
+                        <h4>Ideal Client Avatar</h4>
+                        <div class="form-group">
+                            <label>Age and Demographics</label>
+                            <input type="text" placeholder="Age range, location, income, education, career">
+                        </div>
+                        <div class="form-group">
+                            <label>What are their biggest challenges?</label>
+                            <textarea placeholder="List 3-5 main pain points your ideal client faces"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>What are their goals and aspirations?</label>
+                            <textarea placeholder="What do they want to achieve or become?"></textarea>
+                        </div>
+                        <button class="save-btn">Save Client Avatar</button>
+                    </div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 6</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Your Transformation Promise</h3>
+                    <p class="week-description">
+                        Define what transformation you help clients achieve and your unique approach.
+                    </p>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 7</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Brand Story Workshop</h3>
+                    <p class="week-description">
+                        Craft your compelling brand story that highlights your unique value proposition.
+                    </p>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 8</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Month 2 Reflection</h3>
+                    <p class="week-description">
+                        Integrate your client insights and brand story. Prepare for visual brand creation.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Month 3 -->
+        <div id="month3" class="month-section">
+            <div class="month-header">
+                <h2 class="month-title">Month 3</h2>
+                <p class="month-subtitle">Building your visual brand identity kit</p>
+            </div>
+
+            <div class="weeks-grid">
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 9</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Color & Typography</h3>
+                    <p class="week-description">
+                        Understanding color psychology and typography choices for your brand identity.
+                    </p>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 10</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Logo Design Process</h3>
+                    <p class="week-description">
+                        Understanding logo design principles and creating your brand mark.
+                    </p>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 11</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Brand Identity Kit</h3>
+                    <p class="week-description">
+                        Pulling everything together into your comprehensive brand identity kit.
+                    </p>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-header">
+                        <span class="week-number">Week 12</span>
+                        <span class="week-status status-upcoming">Upcoming</span>
+                    </div>
+                    <h3 class="week-title">Brand Presentations</h3>
+                    <p class="week-description">
+                        Present your completed brand identity to the group and celebrate your journey!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMonth(monthNumber) {
+            // Hide all month sections
+            const sections = document.querySelectorAll('.month-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected month
+            document.getElementById('month' + monthNumber).classList.add('active');
+            
+            // Update navigation buttons
+            const buttons = document.querySelectorAll('.month-nav button');
+            buttons.forEach(button => button.classList.remove('active'));
+            buttons[monthNumber - 1].classList.add('active');
+        }
+
+        // Save form data to localStorage (for demo purposes)
+        document.addEventListener('DOMContentLoaded', function() {
+            const saveButtons = document.querySelectorAll('.save-btn');
+            saveButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Progress saved! (This is a demo - in a real portal, this would save to a database)');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
